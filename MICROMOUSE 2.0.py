@@ -33,6 +33,22 @@ up()
 
 
 ##############################################################################
+
+def clr_screen():
+    goto(-175, -310)
+    down()
+    fillcolor('green')
+    begin_fill()
+    for i in range(2):
+        forward(30)
+        left(90)
+        forward(350)
+        left(90)
+    end_fill()
+    up()
+    return
+
+
 def set_red(row,column):
     goto((column * 100) - 400, -(row * 100) + 300)
     down()
@@ -81,16 +97,41 @@ def set_yellow(row,column):
     up()
     return
 
+def set_purple(row,column):
+    goto((column * 100) - 400, -(row * 100) + 300)
+    down()
+    fillcolor('purple')
+    begin_fill()
+    for i in range(4):
+        forward(100)
+        left(90)
+    end_fill()
+    up()
+    return
+
 #BUTTON
+k=0
 for j in range(0,800,200):
     goto(-390+j,320)
+    k=k+1
+    down()
+    if k==1:
+       fillcolor('red')
+    elif k==2:
+        fillcolor('blue')
+    elif k==3:
+        fillcolor('green')
+    elif k==4:
+        fillcolor('purple')
+    begin_fill()
     for i in range(2):
         down()
         forward(80)
         left(90)
         forward(30)
         left(90)
-        up()
+    end_fill()
+    up()
 
 
 goto(-383,326)
@@ -378,7 +419,10 @@ def strt():
         for x2, y2 in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):
             if 0 <= x2 < 8 and 0 <= y2 < 6 and maze[y2][x2] != '#' and (x2,y2) not in seen:
                 queue.append(path + [(x2,y2)])
+                if maze[y2][x2]!='X':
+                    set_purple(y2,x2)
                 seen.add((x2,y2))
+
 
 ####################################################################
 def clicked_button(x,y):
@@ -389,21 +433,37 @@ def clicked_button(x,y):
     #Game_end=False
    #while not Game_end :
     if x in range(-391,-300)  and y in range(320,350):
-        print("Select Grid")
+        clr_screen()
+        goto(-101, -340)
+        down()
+        write("SET THE WALLS", font=('Arial', 18, "normal"))
+        up()
         set_grid(x,y)
+
     elif x in range(-190,-100)  and y in range(320,350):
         #time.sleep(10)
-        print("Select start")
+        clr_screen()
+        goto(-101, -340)
+        down()
+        write("SET THE START", font=('Arial', 18, "normal"))
+        up()
         onscreenclick(set_start)
+
     elif x in range(10,100)  and y in range(320,350):
-        print("Select Goal")
+        clr_screen()
+        goto(-101, -340)
+        down()
+        write("SET THE GOAL", font=('Arial', 18, "normal"))
+        up()
         onscreenclick(set_goal)
+
     elif x in range(210,300)  and y in range(320,350):
         print("Start")
         strt()
-        goto(-175, -340)
+        clr_screen()
+        goto(-150, -340)
         down()
-        write("THANK YOU FOR PLAYING", font=('Arial', 18, "normal"))
+        write("THANK YOU FOR PLAYING", font=('Arial', 17, "normal"))
         up()
         #exit()
 
